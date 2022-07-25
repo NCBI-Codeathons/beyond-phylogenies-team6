@@ -2,6 +2,7 @@ import argparse
 import os
 import treeswift
 
+from tree_statistics import *
 
 def read_tree(path):
     with open(path, 'r') as f:
@@ -29,4 +30,5 @@ if __name__ == '__main__':
 
     # Load data
     tree = read_tree(os.path.join(args.datadir, 'public-latest.all.nwk'))
+    tree = optimize_tree(tree)
     read_metadata()  # TODO
