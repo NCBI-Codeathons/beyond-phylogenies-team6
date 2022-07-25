@@ -1,6 +1,7 @@
 import argparse
 import csv
 import os
+import pickle
 import treeswift
 from flask import Flask
 import api
@@ -46,7 +47,11 @@ if __name__ == '__main__':
     print("Data directory: %s" % args.datadir)
 
     # Load data
-    tree = read_tree(os.path.join(args.datadir, 'public-latest.all.nwk'))
+    if os.path.exists(os.path.join(args.datadir, 'public-latest.all.p')):
+        tree = pickle.load(open(os.path.join(args.datadir, 'public-latest.all.p'), "rb"))
+    else:
+        tree = read_tree(os.path.join(args.datadir, 'public-latest.all.nwk'))
+        pickle.dump(tree, open(os.path.join(args.datadir, 'public-latest.all.p'), "wb" ))
     tree = optimize_tree(tree)
     metadata = read_metadata(os.path.join(args.datadir, 'basic_metadata.tsv'))
 
