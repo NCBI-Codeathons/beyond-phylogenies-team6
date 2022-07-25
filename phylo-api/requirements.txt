@@ -1,0 +1,2 @@
+numpy==1.23.1
+treeswift==1.1.28
