@@ -1,4 +1,5 @@
 import argparse
+import csv
 import os
 import treeswift
 
@@ -17,8 +18,17 @@ def read_tree(path):
         return t
 
 
-def read_metadata():
-    pass
+def read_metadata(path):
+    metadata = {}
+    with open(path) as f:
+        tsv = csv.DictReader(f, delimiter='\t')
+        for line in tsv:
+            metadata[line['genbank_accession']] = {
+                'region': line['region'],
+                'country': line['country'],
+                'date': line['date']
+            }
+    return metadata
 
 
 if __name__ == '__main__':
@@ -31,4 +41,4 @@ if __name__ == '__main__':
     # Load data
     tree = read_tree(os.path.join(args.datadir, 'public-latest.all.nwk'))
     tree = optimize_tree(tree)
-    read_metadata()  # TODO
+    metadata = read_metadata(os.path.join(args.datadir, 'basic_metadata.tsv'))
