@@ -48,11 +48,15 @@ if __name__ == '__main__':
 
     # Load data
     if os.path.exists(os.path.join(args.datadir, 'public-latest.all.p')):
+        print("Loading tree from pickle file.")
         tree = pickle.load(open(os.path.join(args.datadir, 'public-latest.all.p'), "rb"))
     else:
+        print("Loading tree from newick file.")
         tree = read_tree(os.path.join(args.datadir, 'public-latest.all.nwk'))
+        print("Saving tree as pickle file for faster loading next time.")
         pickle.dump(tree, open(os.path.join(args.datadir, 'public-latest.all.p'), "wb" ))
     tree = optimize_tree(tree)
+    print("Loading metadata.")
     metadata = read_metadata(os.path.join(args.datadir, 'basic_metadata.tsv'))
 
     # Pass data to API
@@ -60,4 +64,5 @@ if __name__ == '__main__':
     api.metadata = metadata
 
     # Start API
+    print("Starting app.")
     app.run(host='0.0.0.0', port=2507)
