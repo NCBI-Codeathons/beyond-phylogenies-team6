@@ -3,6 +3,7 @@ import csv
 import os
 import treeswift
 from flask import Flask
+import api
 from api import tree_api
 
 from tree_statistics import *
@@ -48,6 +49,10 @@ if __name__ == '__main__':
     tree = read_tree(os.path.join(args.datadir, 'public-latest.all.nwk'))
     tree = optimize_tree(tree)
     metadata = read_metadata(os.path.join(args.datadir, 'basic_metadata.tsv'))
+
+    # Pass data to API
+    api.tree = tree
+    api.metadata = metadata
 
     # Start API
     app.run(host='0.0.0.0', port=2507)

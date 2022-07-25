@@ -1,5 +1,9 @@
 from flask import Blueprint, request
 
+# Will be set in main.py
+tree = None
+metadata = None
+
 tree_api = Blueprint('tree_api', __name__)
 
 
