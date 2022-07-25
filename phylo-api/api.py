@@ -9,6 +9,5 @@ tree_api = Blueprint('tree_api', __name__)
 
 @tree_api.route("/mrca", methods=["POST"])
 def run():
-    print("IDs:")
-    print(request.json)
-    return "todo"
+    mrca = tree.mrca(request.json)
+    return mrca.label
