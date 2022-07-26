@@ -3,6 +3,7 @@
 List of participants and affiliations:
 - Chaoran Chen, ETH Zurich, Basel Switzerland (Team Leader)
 - Adrian Lison, ETH Zurich, Basel Switzerland
+- Auguste Rimaite, ETH Zurich, Basel Switzerland
 - Jennifer Chang, Fred Hutchinson Cancer Research Center
 - Theo Sanderson, Francis Crick Institute
 - Alex Kramer, UC Santa Cruz
