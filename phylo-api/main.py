@@ -55,7 +55,7 @@ if __name__ == '__main__':
         tree = read_tree(os.path.join(args.datadir, 'public-latest.all.nwk'))
         print("Saving tree as pickle file for faster loading next time.")
         pickle.dump(tree, open(os.path.join(args.datadir, 'public-latest.all.p'), "wb" ))
-    tree = optimize_tree(tree)
+    tree = enhance_swift_tree(tree)
     print("Loading metadata.")
     metadata = read_metadata(os.path.join(args.datadir, 'basic_metadata.tsv'))
 
