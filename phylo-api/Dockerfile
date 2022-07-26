@@ -6,5 +6,5 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-ENTRYPOINT gunicorn --workers=4 --bind=0.0.0.0:2506 wsgi:app
-EXPOSE 2506
+ENTRYPOINT gunicorn --workers=4 --bind=0.0.0.0:2507 main:app
+EXPOSE 2507
