@@ -6,5 +6,5 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-ENTRYPOINT gunicorn --workers=1 --bind=0.0.0.0:2507 main:app
+ENTRYPOINT gunicorn --workers=1 --bind=0.0.0.0:2507 --timeout=1200 main:app
 EXPOSE 2507
