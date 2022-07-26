@@ -8,6 +8,12 @@ tree_api = Blueprint('tree_api', __name__)
 
 
 @tree_api.route("/mrca", methods=["POST"])
-def run():
-    mrca = tree.mrca_hierarchical(request.json)
+def run_mrca():
+    mrca = tree.mrca(request.json).label
     return mrca
+
+
+@tree_api.route("/cladeness", methods=["POST"])
+def run_hierarchical():
+    mrca_dict = tree.mrca_hierarchical(request.json)
+    return mrca_dict
