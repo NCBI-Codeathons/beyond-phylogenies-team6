@@ -6,6 +6,7 @@ def enhance_swift_tree(tree):
     tree.label_to_node = types.MethodType(label_to_node_opt, tree)
     tree.node_lookup = tree.label_to_node("all")
     tree.mrca_hierarchical = types.MethodType(mrca_hierarchical, tree)
+    tree.cladeness = types.MethodType(cladeness, tree)
     return tree
 
 
@@ -83,3 +84,57 @@ def mrca_hierarchical(self, labels):
                 if count[a] == len(l2n):
                     return({i.label:count[i] for i in sub_mrcas})
         raise RuntimeError("There somehow does not exist an MRCA for the given labels")
+
+
+def cladeness(self, labels):
+        '''Return the MRCAs of all subsets of nodes labeled by a label in ``labels``,
+        along with the number of nodes in ``labels`` below the respective MRCA.
+        Assumes unique labels: If multiple nodes are labeled by a given label,
+        only the last (preorder traversal) will be obtained
+
+        Args:
+            ``labels`` (``set``): Set of leaf labels
+
+        Returns:
+            ``Dict``: A dict with the labels of the MRCAs as keys and
+            the share of nodes in ``labels`` below them as values.
+        '''
+        if not isinstance(labels,set):
+            try:
+                labels = set(labels)
+            except:
+                raise TypeError("labels must be iterable")
+        l2n = self.label_to_node(labels)
+        
+        # count mrcas
+        mrca_count = dict()
+        sub_mrcas = set()
+        total_mrca = None
+        for node in l2n.values():
+            merged = False
+            for a in node.traverse_ancestors():
+                if a not in mrca_count:
+                    mrca_count[a] = 0
+                if mrca_count[a] > 0 and not merged:
+                    sub_mrcas.add(a)
+                    merged = True
+                mrca_count[a] += 1
+                if mrca_count[a] == len(l2n):
+                    total_mrca = a
+                    break
+            if total_mrca is not None:
+                break
+        if total_mrca is None: raise RuntimeError("There somehow does not exist an MRCA for the given labels")
+        
+        # count leaves below mrcas
+        num_valid_leaves = dict()
+        for node in total_mrca.traverse_postorder():
+                if node.is_leaf():
+                    num_valid_leaves[node] = 1 # Filtering criteria to be applied here
+                else:
+                    num_valid_leaves[node] = sum(num_valid_leaves[c] for c in node.children)
+        
+        # compute cladeness scores
+        cladeness = {i.label:mrca_count[i]/num_valid_leaves[i] for i in sub_mrcas}
+        
+        return cladeness

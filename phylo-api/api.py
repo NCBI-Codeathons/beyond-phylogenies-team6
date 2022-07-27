@@ -15,5 +15,5 @@ def run_mrca():
 
 @tree_api.route("/cladeness", methods=["POST"])
 def run_hierarchical():
-    mrca_dict = tree.mrca_hierarchical(request.json)
-    return mrca_dict
+    cladeness_dict = tree.cladeness(request.json)
+    return cladeness_dict
