@@ -27,6 +27,8 @@ List of participants and affiliations:
 
 ![](docs/issues_5.png)
 
+[Link to the CoV-Spectrum instance during the codeathon](https://cov-spectrum-develop-git-ncbi-codeathon-2022-cov-spectrum.vercel.app/)
+
 **New Cladeness API**
 
 ```
