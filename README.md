@@ -40,6 +40,20 @@ curl --header "Content-Type: application/json" \
 
 ## Results
 
+### Taxonium / Nextstrain integration
+#### 1. Import Nextstrain JSON trees
+Taxonium can now load tree files in the Nextstrain JSON (v2) [format](https://github.com/nextstrain/augur/blob/master/augur/data/schema-export-v2.json).
+
+Example Nextstrain [JSON file](https://ns-proxy.vercel.app/api/charon/getDataset?prefix=monkeypox/hmpxv1) (monkeypox)
+
+Trees can be loaded by file upload or by providing a URL.
+
+<img width="219" alt="Screen Shot 2022-07-27 at 9 48 59 AM" src="https://user-images.githubusercontent.com/6502785/181304535-62492499-4ba4-4e0c-b023-30f710909cfd.png">
+
+Example tree displayed in Taxonium, with metadata and mutations parsed from Nextstrain file:
+
+<img width="700" alt="Screen Shot 2022-07-27 at 9 58 13 AM" src="https://user-images.githubusercontent.com/6502785/181306080-e1344e35-394c-4ae2-b7c4-628d5d14bf3d.png">
+
 ## Future Work
 
 ## References
