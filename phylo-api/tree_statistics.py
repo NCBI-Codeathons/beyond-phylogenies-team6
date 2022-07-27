@@ -190,13 +190,13 @@ def select_clusters(tree, mrcas, n_sequences, n_clusters = 12, min_rel_size = 0.
 
 def build_tree(i, mrcas, children):
     if len(children[i])==0:
-        return {i:mrcas[i], "children":None}
+        return {"node":i, "statistics":mrcas[i], "children":None}
     else:
         subt = list()
         for c in children[i]:
             subt_new = build_tree(c, mrcas, children)
             subt.append(subt_new)
-        subt = {i:mrcas[i], "children":subt}
+        subt = {"node":i, "statistics":mrcas[i], "children":subt}
     return subt
 
 
