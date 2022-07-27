@@ -2,7 +2,6 @@ import argparse
 import csv
 import os
 import pickle
-import treeswift
 from flask import Flask
 import api
 from api import tree_api
@@ -61,11 +60,15 @@ else:
     print("Saving tree as pickle file for faster loading next time.")
     pickle.dump(tree, open(os.path.join(datadir, 'public-latest.all.p'), "wb" ))
 tree = enhance_swift_tree(tree)
+tree_label_set = set()
+for node in tree.traverse_postorder():
+    tree_label_set.add(node.label)
 print("Loading metadata.")
 metadata = read_metadata(os.path.join(datadir, 'basic_metadata.tsv'))
 
 # Pass data to API
 api.tree = tree
+api.tree_label_set = tree_label_set
 api.metadata = metadata
 
 print("Starting app.")
