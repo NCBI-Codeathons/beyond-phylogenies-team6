@@ -19,10 +19,10 @@ def run_mrca():
     }
 
 
-@tree_api.route("/cladeness", methods=["POST"])
-def run_hierarchical():
+@tree_api.route("/clusters", methods=["POST"])
+def run_clusters():
     ids_found, ids_not_found = split_in_found_and_not_found(tree_label_set, request.json)
-    cladeness_dict = tree.cladeness(ids_found)
+    cladeness_dict = tree.clusters(ids_found, n_clusters = 2, min_rel_size = 0.05)
     return {
         "result": cladeness_dict,
         "notFound": ids_not_found
