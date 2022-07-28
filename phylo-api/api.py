@@ -25,7 +25,10 @@ def run_clusters():
     n_clusters = request.json.get('n_clusters', 12)
     min_rel_size = request.json.get('min_rel_size', 0.05)
     ids_found, ids_not_found = split_in_found_and_not_found(tree_label_set, seq_ids)
+    if len(ids_found)>0:
         cladeness_dict = tree.clusters(ids_found, n_clusters = n_clusters, min_rel_size = min_rel_size)
+    else:
+        cladeness_dict = dict()
     return {
         "result": cladeness_dict,
         "notFound": ids_not_found
