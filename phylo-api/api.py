@@ -21,8 +21,11 @@ def run_mrca():
 
 @tree_api.route("/clusters", methods=["POST"])
 def run_clusters():
-    ids_found, ids_not_found = split_in_found_and_not_found(tree_label_set, request.json)
-    cladeness_dict = tree.clusters(ids_found, n_clusters = 2, min_rel_size = 0.05)
+    seq_ids = request.json.get('ids', None)
+    n_clusters = request.json.get('n_clusters', 12)
+    min_rel_size = request.json.get('min_rel_size', 0.05)
+    ids_found, ids_not_found = split_in_found_and_not_found(tree_label_set, seq_ids)
+        cladeness_dict = tree.clusters(ids_found, n_clusters = n_clusters, min_rel_size = min_rel_size)
     return {
         "result": cladeness_dict,
         "notFound": ids_not_found
