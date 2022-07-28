@@ -88,7 +88,7 @@ def mrca_hierarchical(labels, parents):
         raise RuntimeError("There somehow does not exist an MRCA for the given labels")
 
 
-def cladeness(self, labels):
+def cladeness(self, labels, metadata = None, filter_criteria = None):
         '''Return the MRCAs of all subsets of nodes labeled by a label in ``labels``,
         along with the number of nodes in ``labels`` below the respective MRCA.
         Assumes unique labels: If multiple nodes are labeled by a given label,
@@ -100,7 +100,10 @@ def cladeness(self, labels):
         Returns:
             ``Dict``: A dict with the labels of the MRCAs as keys and
             the share of nodes in ``labels`` below them as values.
-        '''      
+        '''    
+        if metadata is None and filter_criteria is not None:
+            raise ValueError("Filter criteria supplied but no metadata available.")
+        
         # find mrca
         mrca = self.mrca(labels)
         
@@ -108,7 +111,9 @@ def cladeness(self, labels):
         num_valid_leaves = 0
         for node in mrca.traverse_postorder():
                 if node.is_leaf():
-                    num_valid_leaves += 1 # Filtering criteria to be applied here
+                    # apply filter criteria
+                    if filter_criteria is None or node_meets_criteria(node, metadata, filter_criteria):
+                        num_valid_leaves += 1
         
         # compute cladeness scores
         cladeness = {mrca.label:{"size":len(labels),"cladeness":len(labels)/num_valid_leaves}}
