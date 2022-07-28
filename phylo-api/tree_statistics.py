@@ -7,6 +7,7 @@ def enhance_swift_tree(tree):
     tree.node_lookup = tree.label_to_node("all")
     tree.mrca_hierarchical = types.MethodType(mrca_hierarchical, tree)
     tree.cladeness = types.MethodType(cladeness, tree)
+    tree.cladeness_clusters = types.MethodType(cladeness_clusters, tree)
     tree.clusters = types.MethodType(clusters, tree)
     return tree
 
@@ -96,6 +97,18 @@ def cladeness(self, labels):
         Args:
             ``labels`` (``set``): Set of leaf labels
 
+
+def cladeness_clusters(self, labels, metadata = None, filter_criteria = None):
+        '''Return the MRCAs of all subsets of nodes labeled by a label in ``labels``,
+        along with the number of nodes in ``labels`` below the respective MRCA.
+        Assumes unique labels: If multiple nodes are labeled by a given label,
+        only the last (preorder traversal) will be obtained
+
+        Args:
+            ``labels`` (``set``): Set of leaf labels
+            ``metadata`` (``dict``): Dictionary with leaf labels as keys and node metadata as values
+            ``filter_criteria`` (``dict``): Dictionary with filter criteria
+
         Returns:
             ``Dict``: A dict with the labels of the MRCAs as keys and
             the share of nodes in ``labels`` below them as values.
@@ -104,7 +117,9 @@ def cladeness(self, labels):
             try:
                 labels = set(labels)
             except:
-                raise TypeError("labels must be iterable")
+                raise TypeError("Labels must be iterable.")
+        if metadata is None and filter_criteria is not None:
+            raise ValueError("Filter criteria supplied but no metadata available.")
         l2n = self.label_to_node(labels)
         
         # count mrcas
@@ -131,7 +146,10 @@ def cladeness(self, labels):
         num_valid_leaves = dict()
         for node in total_mrca.traverse_postorder():
                 if node.is_leaf():
-                    num_valid_leaves[node] = 1 # Filtering criteria to be applied here
+                    num_valid_leaves[node] = 0
+                    # apply filter criteria
+                    if filter_criteria is None or node_meets_criteria(node, metadata, filter_criteria):
+                        num_valid_leaves[node] = 1
                 else:
                     num_valid_leaves[node] = sum(num_valid_leaves[c] for c in node.children)
         
@@ -139,6 +157,36 @@ def cladeness(self, labels):
         cladeness = {i.label:{"size":mrca_count[i],"cladeness":mrca_count[i]/num_valid_leaves[i]} for i in sub_mrcas}
         
         return total_mrca.label, cladeness
+
+
+def node_meets_criteria(node, metadata, filter_criteria):
+    if node.label not in metadata: return False
+    if "date_from" in filter_criteria:
+        if (
+            "date" not in metadata[node.label] or
+            metadata[node.label]["date"] is None or
+            filter_criteria["date_from"] > metadata[node.label]["date"]
+        ): return False
+    if "date_to" in filter_criteria:
+        if (
+            "date" not in metadata[node.label] or
+            metadata[node.label]["date"] is None or
+            filter_criteria["date_to"] < metadata[node.label]["date"]
+        ): return False
+    if "country" in filter_criteria:
+        if (
+            "country" not in metadata[node.label] or
+            metadata[node.label]["country"] is None or
+            filter_criteria["country"] != metadata[node.label]["country"]
+        ): return False
+    if "region" in filter_criteria:
+        if (
+            "region" not in metadata[node.label] or
+            metadata[node.label]["region"] is None or
+            filter_criteria["region"] != metadata[node.label]["region"]
+        ): return False
+    # only if all criteria passed
+    return True
 
 
 def get_non_overlapping(sorted_mrcas, parents, n):
@@ -201,8 +249,8 @@ def build_tree(i, mrcas, children):
     return subt
 
 
-def clusters(self, labels, n_clusters = 12, min_rel_size = 0.05):
-    total_mrca, mrcas = self.cladeness(labels)
+def clusters(self, labels, n_clusters = 12, min_rel_size = 0.05, metadata = None, filter_criteria = None):
+    total_mrca, mrcas = self.cladeness_clusters(labels, metadata, filter_criteria)
     selected_c = select_clusters(self, mrcas, n_sequences = len(labels), n_clusters = n_clusters, min_rel_size = min_rel_size)
     selected_c.add(total_mrca)
     root, children = mrca_root_children(self, selected_c)
