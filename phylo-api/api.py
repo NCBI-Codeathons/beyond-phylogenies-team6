@@ -3,7 +3,6 @@ from tree_utils import split_in_found_and_not_found
 
 # Will be set in main.py
 tree = None
-tree_label_set = None
 metadata = None
 
 tree_api = Blueprint('tree_api', __name__)
@@ -25,7 +24,7 @@ def run_mrca():
     seq_ids = request.json.get('ids', None)
     filter_criteria = get_filter_criteria(request.json)
     
-    ids_found, ids_not_found = split_in_found_and_not_found(tree_label_set, seq_ids)
+    ids_found, ids_not_found = split_in_found_and_not_found(tree.node_lookup.keys(), seq_ids)
     mrca_label, cladeness = tree.cladeness(ids_found,
                                            metadata = metadata,
                                            filter_criteria = filter_criteria)
@@ -42,7 +41,7 @@ def run_clusters():
     min_rel_size = request.json.get('min_rel_size', 0.05)
     filter_criteria = get_filter_criteria(request.json)
     
-    ids_found, ids_not_found = split_in_found_and_not_found(tree_label_set, seq_ids)
+    ids_found, ids_not_found = split_in_found_and_not_found(tree.node_lookup.keys(), seq_ids)
     if len(ids_found)>0:
         cladeness_dict = tree.clusters(ids_found,
                                        n_clusters = n_clusters,
