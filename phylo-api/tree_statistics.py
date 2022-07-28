@@ -138,7 +138,7 @@ def cladeness(self, labels):
         # compute cladeness scores
         cladeness = {i.label:{"size":mrca_count[i],"cladeness":mrca_count[i]/num_valid_leaves[i]} for i in sub_mrcas}
         
-        return cladeness
+        return total_mrca.label, cladeness
 
 
 def get_non_overlapping(sorted_mrcas, parents, n):
@@ -201,7 +201,8 @@ def build_tree(i, mrcas, children):
 
 
 def clusters(self, labels, n_clusters = 12, min_rel_size = 0.05):
-    mrcas = self.cladeness(labels)
+    total_mrca, mrcas = self.cladeness(labels)
     selected_c = select_clusters(self, mrcas, n_sequences = len(labels), n_clusters = n_clusters, min_rel_size = min_rel_size)
+    selected_c.add(total_mrca)
     root, children = mrca_root_children(self, selected_c)
     return build_tree(root, mrcas, children)
