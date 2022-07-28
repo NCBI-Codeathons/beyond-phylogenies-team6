@@ -167,6 +167,7 @@ def mrca_root_children(tree, mrca_labels):
             if p.label in mrca_labels:
                 mrca_children[p.label].add(n)
                 has_parent = True
+                break
         if not has_parent: root_node = n
     return root_node, mrca_children
 
