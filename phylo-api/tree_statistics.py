@@ -97,6 +97,24 @@ def cladeness(self, labels):
         Args:
             ``labels`` (``set``): Set of leaf labels
 
+        Returns:
+            ``Dict``: A dict with the labels of the MRCAs as keys and
+            the share of nodes in ``labels`` below them as values.
+        '''      
+        # find mrca
+        mrca = self.mrca(labels)
+        
+        # count leaves below mrca
+        num_valid_leaves = 0
+        for node in mrca.traverse_postorder():
+                if node.is_leaf():
+                    num_valid_leaves += 1 # Filtering criteria to be applied here
+        
+        # compute cladeness scores
+        cladeness = {mrca.label:{"size":len(labels),"cladeness":len(labels)/num_valid_leaves}}
+        
+        return mrca.label, cladeness
+
 
 def cladeness_clusters(self, labels, metadata = None, filter_criteria = None):
         '''Return the MRCAs of all subsets of nodes labeled by a label in ``labels``,

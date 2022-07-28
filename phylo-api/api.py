@@ -11,10 +11,11 @@ tree_api = Blueprint('tree_api', __name__)
 
 @tree_api.route("/mrca", methods=["POST"])
 def run_mrca():
-    ids_found, ids_not_found = split_in_found_and_not_found(tree_label_set, request.json)
-    mrca = tree.mrca(ids_found).label
+    seq_ids = request.json.get('ids', None)
+    ids_found, ids_not_found = split_in_found_and_not_found(tree_label_set, seq_ids)
+    mrca_label, cladeness = tree.cladeness(ids_found)
     return {
-        "result": mrca,
+        "result": cladeness,
         "notFound": ids_not_found
     }
 
