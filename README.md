@@ -7,7 +7,6 @@ List of participants and affiliations:
 - Jennifer Chang, Fred Hutchinson Cancer Research Center
 - Theo Sanderson, Francis Crick Institute
 - Alex Kramer, UC Santa Cruz
-- participant, affiliation
 
 ## Project Goals
 
@@ -40,7 +39,22 @@ curl --header "Content-Type: application/json" \
 
 ## Results
 
-### Taxonium / Nextstrain integration
+### Extensions to Cov-Spectrum 
+#### 1. Cladeness API
+We created an API endpoint to compute a statistic we call cladeness, which is defined as the percentage of a clade occupied by a set of samples, where the clade is that at the MRCA of the set of samples.
+#### 2. CoV-Spectrum Tree Statistics
+We added a `Tree Statistics` panel to CoV-Spectrum that computes the MRCA of the selected sample set, and displays the cladeness and size of clusters within the MRCA subtree.
+
+----
+<img width="1314" alt="Screen Shot 2022-07-28 at 10 46 38 PM" src="https://user-images.githubusercontent.com/6502785/181694362-b456ea45-f818-4cbe-8682-a7d73e0b1219.png">
+
+-----
+
+
+#### 3. Link to Taxonium
+In each cluster above, users can click the button to open the ancestor node in Taxonium (displaying the global SARS-CoV-2 tree)
+
+### Extensions to Taxonium
 #### 1. Import Nextstrain JSON trees
 Taxonium can now load tree files in the Nextstrain JSON (v2) [format](https://github.com/nextstrain/augur/blob/master/augur/data/schema-export-v2.json).
 
@@ -53,6 +67,19 @@ Trees can be loaded by file upload or by providing a URL.
 Example tree displayed in Taxonium, with metadata and mutations parsed from Nextstrain file:
 
 <img width="700" alt="Screen Shot 2022-07-27 at 9 58 13 AM" src="https://user-images.githubusercontent.com/6502785/181306080-e1344e35-394c-4ae2-b7c4-628d5d14bf3d.png">
+
+#### 2. Export Nextstrain JSON trees
+
+Taxonium can now export subtrees to Nextstrain JSON format.
+
+In server-side mode (for example at [cov2tree.org](https://cov2tree.org/)) Taxonium can directly load a subtree into Nextstrain by clicking `View clade in Nextstrain`. In local mode (when uploading a tree file from your computer or a URL), the Nextstrain JSON for a subtree can be downloaded (`Download JSON`) and then loaded into [auspice.us](https://auspice.us/) for visualization.
+
+<img width="923" alt="Screen Shot 2022-07-28 at 10 17 13 PM" src="https://user-images.githubusercontent.com/6502785/181688059-b4400bb0-8b4e-4390-bec9-f2ae118a6e33.png">
+
+#### 3. Open Taxonium clade in CoV-Spectrum
+In Taxonium's global SARS-CoV-2 instance ([cov2tree.org](https://cov2tree.org/)), clades in CoVSpectrum can now be viewed by clicking `Find this clade in CovSpectrum` at a given node.
+
+![taxcov](https://user-images.githubusercontent.com/6502785/181690515-2c5321eb-2054-4b4a-97a7-fc3f943445b6.png)
 
 ## Future Work
 
