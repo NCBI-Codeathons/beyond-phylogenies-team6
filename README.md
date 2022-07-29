@@ -68,6 +68,8 @@ Example tree displayed in Taxonium, with metadata and mutations parsed from Next
 
 <img width="700" alt="Screen Shot 2022-07-27 at 9 58 13 AM" src="https://user-images.githubusercontent.com/6502785/181306080-e1344e35-394c-4ae2-b7c4-628d5d14bf3d.png">
 
+https://taxonium.org/?treeUrl=https%3A%2F%2Fns-proxy.vercel.app%2Fapi%2Fcharon%2FgetDataset%3Fprefix%3Dmonkeypox%2Fhmpxv1&ladderizeTree=true&treeType=nextstrain
+
 #### 2. Export Nextstrain JSON trees
 
 Taxonium can now export subtrees to Nextstrain JSON format.
