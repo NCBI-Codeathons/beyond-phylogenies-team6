@@ -5,6 +5,7 @@ import pickle
 from flask import Flask
 import api
 from api import tree_api
+import re
 
 from tree_statistics import *
 
@@ -12,12 +13,19 @@ def read_tree(path):
     with open(path, 'r') as f:
         s = f.read()
         t = treeswift.read_tree_newick(s)
-        for node in t.traverse_postorder():
+        for node in t.traverse_postorder(leaves = True, internal = False):
             splits = node.label.split('|')
-            if len(splits) >= 2:
-                accession_parts = splits[1].split('.')
-                accession_without_version = accession_parts[0]
-                node.label = accession_without_version
+            found_accession = False
+            for s in splits:
+                if not re.match(r"^\d{4}-\d{2}-\d{2}$",s) and "/" not in s:
+                    accession_parts = s.split('.')
+                    accession_without_version = accession_parts[0]
+                    node.label = accession_without_version
+                    found_accession = True
+                    break
+            if not found_accession:
+                node.label = "unknown"
+        t = t.extract_tree_without(["unknown"])
         return t
 
 
