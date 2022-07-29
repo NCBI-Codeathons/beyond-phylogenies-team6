@@ -74,9 +74,10 @@ View this tree: https://taxonium.org/?treeUrl=https%3A%2F%2Fns-proxy.vercel.app%
 
 Taxonium can now export subtrees to Nextstrain JSON format.
 
-In server-side mode (for example at [cov2tree.org](https://cov2tree.org/)) Taxonium can directly load a subtree into Nextstrain by clicking `View clade in Nextstrain`. In local mode (when uploading a tree file from your computer or a URL), the Nextstrain JSON for a subtree can be downloaded (`Download JSON`) and then loaded into [auspice.us](https://auspice.us/) for visualization.
+In server-side mode (for example at [cov2tree.org](https://cov2tree.org/)) Taxonium can directly load a subtree into Nextstrain by clicking `View clade in Nextstrain`. In local mode (when uploading a tree file from your computer or a URL), the Nextstrain JSON for a subtree can be downloaded (`Download Nextstrain JSON`) and then loaded into [auspice.us](https://auspice.us/) for visualization.
 
-<img width="923" alt="Screen Shot 2022-07-28 at 10 17 13 PM" src="https://user-images.githubusercontent.com/6502785/181688059-b4400bb0-8b4e-4390-bec9-f2ae118a6e33.png">
+<img width="924" alt="image" src="https://user-images.githubusercontent.com/19732295/181799202-83be76a5-8c37-493a-a5ae-d06c331934fb.png">
+
 
 #### 3. Open Taxonium clade in CoV-Spectrum
 In Taxonium's global SARS-CoV-2 instance ([cov2tree.org](https://cov2tree.org/)), clades in CoVSpectrum can now be viewed by clicking `Find this clade in CovSpectrum` at a given node.
