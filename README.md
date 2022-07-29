@@ -39,7 +39,22 @@ curl --header "Content-Type: application/json" \
 
 ## Results
 
-### Taxonium / Nextstrain integration
+### Extensions to Cov-Spectrum 
+#### 1. Cladeness API
+We created an API endpoint to compute a statistic we call cladeness, which is defined as the percentage of a clade occupied by a set of samples, where the clade is that at the MRCA of the set of samples.
+#### 2. CoV-Spectrum Tree Statistics
+We added a `Tree Statistics` panel to CoV-Spectrum that computes the MRCA of the selected sample set, and displays the cladeness and size of clusters within the MRCA subtree.
+
+----
+<img width="1314" alt="Screen Shot 2022-07-28 at 10 46 38 PM" src="https://user-images.githubusercontent.com/6502785/181694362-b456ea45-f818-4cbe-8682-a7d73e0b1219.png">
+
+-----
+
+
+#### 3. Link to Taxonium
+In each cluster above, users can click the button to open the ancestor node in Taxonium (displaying the global SARS-CoV-2 tree)
+
+### Extensions to Taxonium
 #### 1. Import Nextstrain JSON trees
 Taxonium can now load tree files in the Nextstrain JSON (v2) [format](https://github.com/nextstrain/augur/blob/master/augur/data/schema-export-v2.json).
 
